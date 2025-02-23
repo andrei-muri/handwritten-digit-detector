@@ -3,3 +3,5 @@ __pycache__/*
 cache/*
 
 venv/*
+
+src/__pycache__/*

@@ -81,7 +81,6 @@ class Network:
         activations = [x] # list to store all the activations
         zs = [] # list to store all the z vectors
         for b, w in zip(self.biases, self.weights):
-            #print(f"{w.shape}, {activation.shape}, {b.shape}")
             z = (w @ activation) + b
             zs.append(z)
             activation = self.sigmoid(z)
@@ -91,13 +90,17 @@ class Network:
         delta = self.cost_derivative(activations[-1], y) * self.sigmoid_prime(zs[-1])
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
+        # now with the computed error propagate backwards to find the partial derivatives
+        # w.r.t. to all the weights and the biases from each layer. The result will be
+        # two lists: one list of matrices containing the gradients at each level and one
+        # list for the biases gradients at each level for input x
         for l in range(2, self.num_layers):
             z = zs[-l]
             sp = self.sigmoid_prime(z)
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
-            nabla_b[-l] = delta
-            nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
-        return (nabla_w, nabla_b)
+            nabla_b[-l] = delta # bias gradient at a layer
+            nabla_w[-l] = np.dot(delta, activations[-l-1].transpose()) # weight gradient at a level
+        return (nabla_w, nabla_b) # the resulting lists with the gradients
 
 
     def evaluate(self, test_data):

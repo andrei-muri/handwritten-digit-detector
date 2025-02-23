@@ -108,16 +108,19 @@ def main(win, width):
 					if(not neighbour.is_white()):
 						rand = randint(0, 160)
 						neighbour.set_color((255 - rand, 255 - rand, 255 - rand))
+						
 				if row > 0:
 					neighbour = grid[row - 1][col]
 					if(not neighbour.is_white()):
 						rand = randint(0, 160)
 						neighbour.set_color((255 - rand, 255 - rand, 255 - rand))
+						
 				if col < 27:
 					neighbour = grid[row][col + 1]
 					if(not neighbour.is_white()):
 						rand = randint(0, 160)
 						neighbour.set_color((255 - rand, 255 - rand, 255 - rand))
+						
 				if row < 27:
 					neighbour = grid[row + 1][col]
 					if(not neighbour.is_white()):
