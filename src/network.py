@@ -14,7 +14,7 @@ class Network:
         (without the sigmoid part)."""
         self.sizes = sizes
         self.num_layers = len(sizes)
-        if load_from_file and os.path.exists("..\\cache\\network_params.pkl"):
+        if load_from_file and os.path.exists("../cache/network_params.pkl"):
             print("Loading saved network parameters...")
             self.load_parameters()
             self.cached = True
@@ -121,13 +121,13 @@ class Network:
     
     def save_parameters(self):
         """Save weights and biases to a file."""
-        with open("..\\cache\\network_params.pkl", "wb") as f:
+        with open("../cache/network_params.pkl", "wb") as f:
             pickle.dump((self.weights, self.biases), f)
         print("Saved network parameters to 'network_params.pkl'.")
 
     def load_parameters(self):
         """Load weights and biases from a file."""
-        with open("..\\cache\\network_params.pkl", "rb") as f:
+        with open("../cache/network_params.pkl", "rb") as f:
             self.weights, self.biases = pickle.load(f)
         print("Loaded network parameters from 'network_params.pkl'.")
 
