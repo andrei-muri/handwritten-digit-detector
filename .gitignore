@@ -1,9 +1,7 @@
-__pycache__/*
+__pycache__/
 
 cache/network_params
 
 venv/*
-
-src/__pycache__/*
 
 handwritten_digit_env/*
