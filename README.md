@@ -15,9 +15,6 @@ In this app, the user can draw on a digit on a canvas and a trained (on the spot
 
 ## Screenshots from the app
 ![Digit '2'](/img/2_img.png)
-![Digit '3'](/img/3_img.png)
-![Digit '4'](/img/4_img.png)
-![Inconclussive](/img/inconclussive_img.png)
 
 ## How to run the app on Linux machines
 1. Clone the repository
