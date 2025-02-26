@@ -13,7 +13,7 @@ In this app, the user can draw on a digit on a canvas and a trained (on the spot
 >[!WARNING]
 > As I said earlier, the neural network was created and trained from zero, with no Machine Learning libraries used, only numpy.
 
-## Screenshots from the app
+## Screenshot from the app
 ![Digit '2'](/img/2_img.png)
 
 ## How to run the app on Linux machines
