@@ -4,6 +4,7 @@ import numpy as np
 from random import shuffle
 import os
 import pickle
+from metrics import Metrics
 
 class Network:
     def __init__(self, sizes, load_from_file=True):
@@ -107,6 +108,58 @@ class Network:
         test_results = [(np.argmax(self.feed_forward(x)), y)
                         for (x, y) in test_data]
         return sum(int(x == y) for (x, y) in test_results)
+    
+    def get_metrics(self, test_data):
+        """
+        Calculate and return comprehensive metrics on test data.
+        
+        Args:
+            test_data: List of tuples (x, y) where x is input and y is the actual label
+            
+        Returns:
+            Dictionary containing various metrics
+        """
+        test_data = list(test_data)
+        predictions = []
+        actuals = []
+        
+        for x, y in test_data:
+            prediction = np.argmax(self.feed_forward(x))
+            predictions.append(prediction)
+            actuals.append(y)
+        
+        # Calculate all metrics using the Metrics utility class
+        accuracy = Metrics.accuracy(predictions, actuals)
+        per_class_metrics = Metrics.precision_recall_f1(predictions, actuals)
+        confusion_matrix = Metrics.confusion_matrix(predictions, actuals)
+        
+        return {
+            'accuracy': accuracy,
+            'precision': per_class_metrics['precision'],
+            'recall': per_class_metrics['recall'],
+            'f1': per_class_metrics['f1'],
+            'confusion_matrix': confusion_matrix,
+            'predictions': predictions,
+            'actuals': actuals
+        }
+    
+    def print_metrics_report(self, test_data):
+        """
+        Print a comprehensive metrics report for the test data.
+        
+        Args:
+            test_data: List of tuples (x, y) where x is input and y is the actual label
+        """
+        test_data = list(test_data)
+        predictions = []
+        actuals = []
+        
+        for x, y in test_data:
+            prediction = np.argmax(self.feed_forward(x))
+            predictions.append(prediction)
+            actuals.append(y)
+        
+        Metrics.print_metrics_report(predictions, actuals)
 
 
     def cost_derivative(self, output, y):

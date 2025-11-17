@@ -14,13 +14,21 @@ pygame.font.init()
 FONT = pygame.font.Font(None, 50)
 
 def train_network():
-	training_data, _, _ = mnist_loader.load_data_wrapper()
-	training_data = list(training_data)
-	net = Network([784, 30, 10])
-
-	if not net.is_cached():
-		net.Stochastic_Gradient_Descent_Training(training_data, 30, 10, 3.0)
-	return net
+    training_data, _, test_data = mnist_loader.load_data_wrapper()
+    training_data = list(training_data)
+    test_data = list(test_data)
+    
+    net = Network([784, 30, 10])
+    
+    if not net.is_cached():
+        print("Training network...")
+        net.Stochastic_Gradient_Descent_Training(training_data, 30, 10, 3.0, test_data=test_data)
+    
+    # Print comprehensive metrics report
+    print("\nEvaluating network on test data...")
+    net.print_metrics_report(test_data)
+    
+    return net
 
 def grid_to_input(grid, rows):
     """Convert a grid to a neural network input (784x1 array).
