@@ -1,6 +1,6 @@
 __pycache__/
 
-cache/network_params
+cache/*
 
 venv/*
 

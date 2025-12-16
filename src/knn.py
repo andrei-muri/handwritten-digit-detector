@@ -38,14 +38,11 @@ class KNN:
         Returns:
             Histogram feature vector (normalized)
         """
-        # Flatten if needed
         if image.shape == (784, 1):
             image = image.flatten()
         
-        # Compute histogram with specified number of bins
         hist, _ = np.histogram(image, bins=self.num_bins, range=(0.0, 1.0))
         
-        # Normalize the histogram
         hist = hist.astype(float)
         hist_sum = np.sum(hist)
         if hist_sum > 0:
@@ -67,7 +64,6 @@ class KNN:
         Returns:
             Concatenated histogram features from all grid cells
         """
-        # Reshape to 28x28 if needed
         if image.shape == (784, 1):
             image = image.reshape(28, 28)
         elif image.shape == (784,):
@@ -76,7 +72,6 @@ class KNN:
         cell_size = 28 // grid_size
         features = []
         
-        # Compute histogram for each grid cell
         for i in range(grid_size):
             for j in range(grid_size):
                 row_start = i * cell_size
@@ -88,7 +83,6 @@ class KNN:
                 cell_hist = self.compute_histogram(cell.flatten())
                 features.append(cell_hist)
         
-        # Concatenate all cell histograms
         spatial_features = np.concatenate(features)
         return spatial_features
     
@@ -117,7 +111,6 @@ class KNN:
             if i % 5000 == 0:
                 print(f"Processing sample {i}/{len(training_data)}...")
             
-            # Compute features
             if use_spatial:
                 features = self.compute_spatial_histogram(image)
             else:
@@ -144,13 +137,11 @@ class KNN:
         Returns:
             Predicted label
         """
-        # Compute features for query image
         if use_spatial:
             query_features = self.compute_spatial_histogram(image)
         else:
             query_features = self.compute_histogram(image)
         
-        # Compute distances to all training samples
         distances = []
         for train_features in self.training_features:
             if distance_metric == 'chi_square':
@@ -160,12 +151,10 @@ class KNN:
             if dist < 20:
                 distances.append(dist)
         
-        # Find k nearest neighbors
         distances = np.array(distances)
         k_indices = np.argsort(distances)[:self.k]
         k_nearest_labels = self.training_labels[k_indices]
-        
-        # Vote for the most common label
+
         most_common = Counter(k_nearest_labels).most_common(1)
         return most_common[0][0]
     
@@ -253,14 +242,11 @@ class KNN:
             Tuple of (predictions, actual_labels)
         """
         test_data_size = len(test_data)
-        
-        # Try to load from cache
         if use_cache:
             cached_data = self._load_cached_metrics(test_data_size, use_spatial, distance_metric)
             if cached_data is not None:
                 return cached_data['predictions'], cached_data['actuals']
         
-        # Compute predictions
         predictions = []
         actuals = []
         
@@ -276,7 +262,7 @@ class KNN:
         
         print("Prediction complete!")
         
-        # Save to cache
+
         if use_cache:
             self._save_metrics_to_cache(predictions, actuals, test_data_size, 
                                        use_spatial, distance_metric)
